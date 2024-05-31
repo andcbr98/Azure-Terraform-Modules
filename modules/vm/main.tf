@@ -13,23 +13,23 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_virtual_network" "vnet" {
-  count = var.create_vnet ? 1 : 0
+  count               = var.create_vnet ? 1 : 0
   name                = "${var.name_prefix}-vnet"
-  address_space       = ["10.0.0.0/16"]
+  address_space       = [var.vnet_address_space]
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
 
 resource "azurerm_subnet" "subnet" {
-  count = var.create_vnet ? 1 : 0
-  name                 = "${var.name_prefix}-subnet"
-  resource_group_name  = azurerm_resource_group.rg.name
+  count               = var.create_vnet ? var.subnet_count : 0
+  name                = element(var.subnet_names, count.index)
+  resource_group_name = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet[0].name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes    = [element(var.subnet_address_spaces, count.index)]
 }
 
 resource "azurerm_public_ip" "public_ip" {
-  count = var.create_public_ip ? var.zone_count : 0
+  count               = var.create_public_ip ? var.zone_count : 0
   name                = "${var.name_prefix}-publicip-${count.index}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -37,7 +37,7 @@ resource "azurerm_public_ip" "public_ip" {
 }
 
 resource "azurerm_network_interface" "nic" {
-  count = var.create_nic ? var.zone_count : 0
+  count               = var.create_nic ? var.zone_count : 0
   name                = "${var.name_prefix}-nic-${count.index}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -62,9 +62,10 @@ resource "azurerm_virtual_machine" "vm" {
 
   storage_os_disk {
     name              = "${var.name_prefix}-osdisk-${count.index}"
-    caching           = "ReadWrite"
+    caching           = var.os_disk_caching
     create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
+    managed_disk_type = var.os_disk_type
+    disk_size_gb      = var.os_disk_size_gb
   }
 
   storage_image_reference {
@@ -94,7 +95,7 @@ resource "azurerm_virtual_machine" "vm" {
     content {
       name              = "${var.name_prefix}-datadisk-${count.index}-${storage_data_disk.value}"
       lun               = storage_data_disk.value
-      caching           = "ReadWrite"
+      caching           = var.data_disk_caching
       create_option     = "Empty"
       disk_size_gb      = var.data_disk_size_gb
       managed_disk_type = var.data_disk_type
