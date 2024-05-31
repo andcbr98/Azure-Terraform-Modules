@@ -1,0 +1,15 @@
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+- script: |
+    echo "Ready to validate code"
+    terraform init
+    terraform validate
+  displayName: 'Code validation'
+
+
