@@ -1,0 +1,29 @@
+trigger:
+- master
+
+pool:
+  name: 'Default'
+
+variables:
+- group: 'GitHub sync'
+
+steps:
+- script: |
+    git clone https://$(AZORG):$(AZUREPAT)@dev.azure.com/$(AZORG)/Azure%20Terraform%20Modules/_git/Azure%20Terraform%20Modules
+    cd Azure%20Terraform%20Modules
+    rm -rf .git
+
+    cd ..
+    git clone https://$(GITHUB_USERNAME):$(GITHUB_TOKEN)@github.com/$(GITHUB_USERNAME)/Azure-Terraform-Modules
+
+    cp -r Azure%20Terraform%20Modules/* Azure-Terraform-Modules/
+
+    cd Azure-Terraform-Modules
+
+    git config --global user.email "$(AZUSER_EMAIL)"
+    git config --global user.name "$(AZUSERNAME)"
+
+    git add .
+    git commit -m "sync from Azure DevOps to GitHub"
+    git push
+  displayName: 'Sync Azure DevOps to GitHub'
