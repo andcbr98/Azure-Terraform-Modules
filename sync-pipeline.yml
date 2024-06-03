@@ -24,6 +24,6 @@ steps:
     git config --global user.name "$(AZUSERNAME)"
 
     git add .
-    git commit -m "sync from Azure DevOps to GitHub"
+    git commit -m "$(Build.SourceVersionMessage)"
     git push
   displayName: 'Sync Azure DevOps to GitHub'
