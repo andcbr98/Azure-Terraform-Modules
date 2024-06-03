@@ -1,25 +1,50 @@
+
 variable "resource_group_name" {
   description = "The name of the resource group"
   type        = string
-  default     = "myResourceGroup"
+  default     = "test-rg"
 }
 
 variable "location" {
   description = "The location of the resources"
   type        = string
-  default     = "East US"
+  default     = "Italy North"
 }
 
 variable "name_prefix" {
   description = "Prefix for all resources"
   type        = string
-  default     = "mydemo"
+  default     = "demo"
 }
 
 variable "create_vnet" {
   description = "Flag to create a virtual network"
   type        = bool
   default     = true
+}
+
+variable "vnet_address_space" {
+  description = "The address space for the virtual network"
+  type        = string
+  default     = "10.0.0.0/16"
+}
+
+variable "subnet_count" {
+  description = "The number of subnets to create"
+  type        = number
+  default     = 1
+}
+
+variable "subnet_names" {
+  description = "The names of the subnets"
+  type        = list(string)
+  default     = ["subnet1"]
+}
+
+variable "subnet_address_spaces" {
+  description = "The address spaces for the subnets"
+  type        = list(string)
+  default     = ["10.0.1.0/24"]
 }
 
 variable "create_public_ip" {
@@ -82,6 +107,24 @@ variable "vm_image_version" {
   default     = "latest"
 }
 
+variable "os_disk_caching" {
+  description = "The caching mode of the OS disk"
+  type        = string
+  default     = "ReadWrite"
+}
+
+variable "os_disk_type" {
+  description = "The type of the OS disk"
+  type        = string
+  default     = "Standard_LRS"
+}
+
+variable "os_disk_size_gb" {
+  description = "The size of the OS disk in GB"
+  type        = number
+  default     = 30
+}
+
 variable "data_disk_count" {
   description = "The number of data disks to attach to the VM"
   type        = number
@@ -98,6 +141,12 @@ variable "data_disk_type" {
   description = "The type of the data disk"
   type        = string
   default     = "Standard_LRS"
+}
+
+variable "data_disk_caching" {
+  description = "The caching mode of the data disk"
+  type        = string
+  default     = "ReadWrite"
 }
 
 variable "zone_redundant" {
