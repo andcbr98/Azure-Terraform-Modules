@@ -93,7 +93,7 @@ resource "azurerm_virtual_machine" "vm" {
   dynamic "storage_data_disk" {
     for_each = range(var.data_disk_count)
     content {
-      name              = "${var.name_prefix}-datadisk-0${count.index + 1}-${storage_data_disk.value}"
+      name              = "${var.name_prefix}-datadisk-0${count.index + 1}"
       lun               = storage_data_disk.value
       caching           = var.data_disk_caching
       create_option     = "Empty"
