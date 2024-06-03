@@ -4,7 +4,7 @@ provider "azurerm" {
 }
 
 module "azure_vm" {
-  source = "../../modules/vm"
+  source = "../../modules/virtual-machine"
 
   resource_group_name          = var.resource_group_name
   name_prefix                  = var.name_prefix
