@@ -14,6 +14,10 @@ module "azure_vm" {
   subnet_address_spaces        = var.subnet_address_spaces
   create_vnet                  = var.create_vnet
   create_public_ip             = var.create_public_ip
+  existent_vnet_id             = var.existent_vnet_id
+  existent_subnet_id           = var.existent_subnet_id
+  existent_public_ip_id        = var.existent_public_ip_id
+  private_ip_address           = var.private_ip_address
   create_nic                   = var.create_nic
   zone_count                   = var.zone_count
   vm_size                      = var.vm_size

@@ -18,6 +18,11 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = [var.vnet_address_space]
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
 }
 
 resource "azurerm_subnet" "subnet" {
@@ -34,6 +39,11 @@ resource "azurerm_public_ip" "public_ip" {
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   allocation_method   = "Static"
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
 }
 
 resource "azurerm_network_interface" "nic" {
@@ -44,10 +54,15 @@ resource "azurerm_network_interface" "nic" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnet[0].id
+    subnet_id                     = var.create_vnet ? azurerm_subnet.subnet[0].id : var.existent_subnet_id
     private_ip_address_allocation = "Static"
-    private_ip_address            = "10.0.1.${count.index + 4}"
-    public_ip_address_id          = var.create_public_ip ? azurerm_public_ip.public_ip[count.index].id : null
+    private_ip_address            = element(var.private_ip_address, count.index)
+    public_ip_address_id          = var.create_public_ip ? azurerm_public_ip.public_ip[count.index].id : (var.existent_public_ip_id != "" ? var.existent_public_ip_id : null)
+  }
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
   }
 }
 
@@ -56,7 +71,7 @@ resource "azurerm_virtual_machine" "vm" {
   name                  = "${var.name_prefix}-vm-0${count.index + 1}"
   location              = data.azurerm_resource_group.rg.location
   resource_group_name   = data.azurerm_resource_group.rg.name
-  network_interface_ids = var.create_nic ? [azurerm_network_interface.nic[count.index].id] : []
+  network_interface_ids = var.create_nic ? [azurerm_network_interface.nic[count.index].id] : null
 
   vm_size = var.vm_size
 
@@ -100,6 +115,11 @@ resource "azurerm_virtual_machine" "vm" {
       disk_size_gb      = var.data_disk_size_gb
       managed_disk_type = var.data_disk_type
     }
+  }
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
   }
 
   zones = var.zone_redundant ? [count.index + 1] : null

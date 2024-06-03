@@ -1,4 +1,3 @@
-
 variable "resource_group_name" {
   description = "The name of the resource group"
   type        = string
@@ -51,6 +50,30 @@ variable "create_public_ip" {
   description = "Flag to create a public IP"
   type        = bool
   default     = true
+}
+
+variable "existent_vnet_id" {
+  description = "ID of an existing virtual network to use"
+  type        = string
+  default     = ""
+}
+
+variable "existent_subnet_id" {
+  description = "ID of an existing subnet to use"
+  type        = string
+  default     = ""
+}
+
+variable "existent_public_ip_id" {
+  description = "ID of an existing public ip to use"
+  type        = string
+  default     = ""
+}
+
+variable "private_ip_address" {
+  description = "List of private ip address to use"
+  type        = list(string)
+  default     = ["10.0.1.6"]
 }
 
 variable "create_nic" {
