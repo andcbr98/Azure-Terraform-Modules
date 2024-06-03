@@ -19,7 +19,7 @@ variable "name_prefix" {
 variable "create_vnet" {
   description = "Flag to create a virtual network"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "vnet_address_space" {
@@ -49,19 +49,19 @@ variable "subnet_address_spaces" {
 variable "create_public_ip" {
   description = "Flag to create a public IP"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "existent_vnet_id" {
   description = "ID of an existing virtual network to use"
   type        = string
-  default     = "/subscriptions/70086ce9-3a8c-49ef-9aa9-ab13905bdaf5/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/demo-vnet"
+  default     = ""
 }
 
 variable "existent_subnet_id" {
   description = "ID of an existing subnet to use"
   type        = string
-  default     = "/subscriptions/70086ce9-3a8c-49ef-9aa9-ab13905bdaf5/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/demo-vnet/subnets/subnet1"
+  default     = ""
 }
 
 variable "existent_public_ip_id" {
