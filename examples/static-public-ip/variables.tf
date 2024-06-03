@@ -1,13 +1,13 @@
 variable "name_prefix" {
   description = "Prefix to use"
   type        = string
-  default     = "demo"
+  default     = "prefix"
 }
 
 variable "name_suffix" {
   description = "Suffix to use"
   type        = string
-  default     = "demo"
+  default     = "suffix"
 }
 
 variable "location" {
