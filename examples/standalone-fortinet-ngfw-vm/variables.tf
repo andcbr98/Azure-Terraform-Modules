@@ -121,19 +121,19 @@ variable "custom_image_id" {
 variable "vm_image_publisher" {
   description = "The publisher of the VM image"
   type        = string
-  default     = "Canonical"
+  default     = "fortinet"
 }
 
 variable "vm_image_offer" {
   description = "The offer of the VM image"
   type        = string
-  default     = "UbuntuServer"
+  default     = "fortinet_fortigate-vm_v5"
 }
 
 variable "vm_image_sku" {
   description = "The SKU of the VM image"
   type        = string
-  default     = "18.04-LTS"
+  default     = "fortinet_fg-vm_payg_2023"
 }
 
 variable "vm_image_version" {

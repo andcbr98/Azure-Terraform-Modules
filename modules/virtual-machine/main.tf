@@ -75,6 +75,14 @@ resource "azurerm_virtual_machine" "vm" {
 
   vm_size = var.vm_size
 
+  storage_image_reference {
+    id        = var.custom_image_id
+    publisher = var.custom_image_id == null ? var.ngfw_publisher : null
+    offer     = var.custom_image_id == null ? var.ngfw_offer : null
+    sku       = var.custom_image_id == null ? var.ngfw_sku : null
+    version   = var.custom_image_id == null ? var.ngfw_version : null
+  }
+
   storage_os_disk {
     name              = "${var.name_prefix}-osdisk-0${count.index + 1}"
     caching           = var.os_disk_caching
@@ -103,6 +111,16 @@ resource "azurerm_virtual_machine" "vm" {
   boot_diagnostics {
     enabled     = var.enable_boot_diagnostics
     storage_uri = var.boot_diagnostics_storage_uri
+  }
+
+  dynamic "plan" {
+    for_each = var.enable_plan ? ["one"] : []
+
+    content {
+      name      = var.ngfw_sku
+      publisher = var.ngfw_publisher
+      product   = var.ngfw_offer
+    }
   }
 
   dynamic "storage_data_disk" {
