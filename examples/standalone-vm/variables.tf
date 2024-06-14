@@ -13,7 +13,7 @@ variable "location" {
 variable "resource_prefixes" {
   description = "Prefix for all resources"
   type        = list(string)
-  default     = "[demo]"
+  default     = ["demo"]
 }
 
 variable "create_vnet" {
