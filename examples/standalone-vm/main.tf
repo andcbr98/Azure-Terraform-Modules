@@ -7,7 +7,7 @@ module "azure_vm" {
   source = "../../modules/virtual-machine"
 
   resource_group_name          = var.resource_group_name
-  name_prefix                  = var.name_prefix
+  resource_prefixes            = var.resource_prefixes
   vnet_address_space           = var.vnet_address_space
   subnet_count                 = var.subnet_count
   subnet_names                 = var.subnet_names

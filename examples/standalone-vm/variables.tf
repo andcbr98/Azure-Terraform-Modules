@@ -10,10 +10,10 @@ variable "location" {
   default     = "Italy North"
 }
 
-variable "name_prefix" {
+variable "resource_prefixes" {
   description = "Prefix for all resources"
-  type        = string
-  default     = "demo"
+  type        = list(string)
+  default     = "[demo]"
 }
 
 variable "create_vnet" {

@@ -14,7 +14,7 @@ data "azurerm_resource_group" "rg" {
 
 resource "azurerm_virtual_network" "vnet" {
   count               = var.create_vnet ? 1 : 0
-  name                = "${var.name_prefix}-vnet"
+  name                = "${var.resource_prefixes[count.index]}-vnet"
   address_space       = [var.vnet_address_space]
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
@@ -35,7 +35,7 @@ resource "azurerm_subnet" "subnet" {
 
 resource "azurerm_public_ip" "public_ip" {
   count               = var.create_public_ip ? var.zone_count : 0
-  name                = "${var.name_prefix}-publicip-0${count.index + 1}"
+  name                = "${var.resource_prefixes[count.index]}-publicip-0${count.index + 1}"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   allocation_method   = "Static"
@@ -48,7 +48,7 @@ resource "azurerm_public_ip" "public_ip" {
 
 resource "azurerm_network_interface" "nic" {
   count               = var.create_nic ? var.zone_count : 0
-  name                = "${var.name_prefix}-nic-0${count.index + 1}"
+  name                = "${var.resource_prefixes[count.index]}-nic-0${count.index + 1}"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
 
@@ -68,7 +68,7 @@ resource "azurerm_network_interface" "nic" {
 
 resource "azurerm_virtual_machine" "vm" {
   count                 = var.zone_count
-  name                  = "${var.name_prefix}-vm-0${count.index + 1}"
+  name                  = "${var.resource_prefixes[count.index]}-vm-0${count.index + 1}"
   location              = data.azurerm_resource_group.rg.location
   resource_group_name   = data.azurerm_resource_group.rg.name
   network_interface_ids = var.create_nic ? [azurerm_network_interface.nic[count.index].id] : null
@@ -84,7 +84,7 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   storage_os_disk {
-    name              = "${var.name_prefix}-osdisk-0${count.index + 1}"
+    name              = "${var.resource_prefixes[count.index]}-osdisk-0${count.index + 1}"
     caching           = var.os_disk_caching
     create_option     = "FromImage"
     managed_disk_type = var.os_disk_type
@@ -99,7 +99,7 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   os_profile {
-    computer_name  = "${var.name_prefix}-hostname-0${count.index + 1}"
+    computer_name  = "${var.resource_prefixes[count.index]}-hostname-0${count.index + 1}"
     admin_username = var.admin_username
     admin_password = random_password.vm_password.result
   }
@@ -126,7 +126,7 @@ resource "azurerm_virtual_machine" "vm" {
   dynamic "storage_data_disk" {
     for_each = range(var.data_disk_count)
     content {
-      name              = "${var.name_prefix}-datadisk-0${count.index + 1}"
+      name              = "${var.resource_prefixes[count.index]}-datadisk-0${count.index + 1}"
       lun               = storage_data_disk.value
       caching           = var.data_disk_caching
       create_option     = "Empty"
