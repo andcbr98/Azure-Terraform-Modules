@@ -24,6 +24,7 @@ module "azure_vm" {
   os_disk_caching              = var.os_disk_caching
   os_disk_type                 = var.os_disk_type
   os_disk_size_gb              = var.os_disk_size_gb
+  custom_image_id              = var.custom_image_id
   vm_image_publisher           = var.vm_image_publisher
   vm_image_offer               = var.vm_image_offer
   vm_image_sku                 = var.vm_image_sku

@@ -8,6 +8,12 @@ resource "random_password" "vm_password" {
   special = true
 }
 
+resource "azurerm_marketplace_agreement" "this" {
+  publisher = var.vm_image_publisher
+  offer     = var.vm_image_offer
+  plan      = var.vm_image_sku
+}
+
 data "azurerm_resource_group" "rg" {
   name = var.resource_group_name
 }
@@ -35,7 +41,7 @@ resource "azurerm_subnet" "subnet" {
 
 resource "azurerm_public_ip" "public_ip" {
   count               = var.create_public_ip ? var.zone_count : 0
-  name                = "${var.resource_prefixes[count.index]}-publicip-0${count.index + 1}"
+  name                = "${var.resource_prefixes[count.index]}-publicip"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   allocation_method   = "Static"
@@ -48,7 +54,7 @@ resource "azurerm_public_ip" "public_ip" {
 
 resource "azurerm_network_interface" "nic" {
   count               = var.create_nic ? var.zone_count : 0
-  name                = "${var.resource_prefixes[count.index]}-nic-0${count.index + 1}"
+  name                = "${var.resource_prefixes[count.index]}-nic"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
 
@@ -68,7 +74,7 @@ resource "azurerm_network_interface" "nic" {
 
 resource "azurerm_virtual_machine" "vm" {
   count                 = var.zone_count
-  name                  = "${var.resource_prefixes[count.index]}-vm-0${count.index + 1}"
+  name                  = var.resource_prefixes[count.index]
   location              = data.azurerm_resource_group.rg.location
   resource_group_name   = data.azurerm_resource_group.rg.name
   network_interface_ids = var.create_nic ? [azurerm_network_interface.nic[count.index].id] : null
@@ -84,15 +90,15 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   storage_os_disk {
-    name              = "${var.resource_prefixes[count.index]}-osdisk-0${count.index + 1}"
+    name              = "${var.resource_prefixes[count.index]}-osdisk"
     caching           = var.os_disk_caching
     create_option     = "FromImage"
     managed_disk_type = var.os_disk_type
     disk_size_gb      = var.os_disk_size_gb
   }
-  
+
   os_profile {
-    computer_name  = "${var.resource_prefixes[count.index]}-hostname-0${count.index + 1}"
+    computer_name  = var.resource_prefixes[count.index]
     admin_username = var.admin_username
     admin_password = random_password.vm_password.result
   }
