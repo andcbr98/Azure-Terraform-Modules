@@ -121,7 +121,7 @@ variable "custom_image_id" {
 variable "vm_image_publisher" {
   description = "The publisher of the VM image"
   type        = string
-  default     = "canonical"
+  default     = "Canonical"
 }
 
 variable "vm_image_offer" {

@@ -127,13 +127,13 @@ variable "vm_image_publisher" {
 variable "vm_image_offer" {
   description = "The offer of the VM image"
   type        = string
-  default     = "UbuntuServer"
+  default     = "0001-com-ubuntu-server-focal"
 }
 
 variable "vm_image_sku" {
   description = "The SKU of the VM image"
   type        = string
-  default     = "18.04-LTS"
+  default     = "20_04-lts-gen2"
 }
 
 variable "vm_image_version" {
