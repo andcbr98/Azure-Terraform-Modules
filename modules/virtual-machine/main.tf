@@ -77,10 +77,10 @@ resource "azurerm_virtual_machine" "vm" {
 
   storage_image_reference {
     id        = var.custom_image_id
-    publisher = var.custom_image_id == null ? var.ngfw_publisher : null
-    offer     = var.custom_image_id == null ? var.ngfw_offer : null
-    sku       = var.custom_image_id == null ? var.ngfw_sku : null
-    version   = var.custom_image_id == null ? var.ngfw_version : null
+    publisher = var.custom_image_id == null ? var.vm_image_publisher : null
+    offer     = var.custom_image_id == null ? var.vm_image_offer : null
+    sku       = var.custom_image_id == null ? var.vm_image_sku : null
+    version   = var.custom_image_id == null ? var.vm_image_version : null
   }
 
   storage_os_disk {
@@ -90,14 +90,7 @@ resource "azurerm_virtual_machine" "vm" {
     managed_disk_type = var.os_disk_type
     disk_size_gb      = var.os_disk_size_gb
   }
-
-  storage_image_reference {
-    publisher = var.vm_image_publisher
-    offer     = var.vm_image_offer
-    sku       = var.vm_image_sku
-    version   = var.vm_image_version
-  }
-
+  
   os_profile {
     computer_name  = "${var.resource_prefixes[count.index]}-hostname-0${count.index + 1}"
     admin_username = var.admin_username
@@ -117,9 +110,9 @@ resource "azurerm_virtual_machine" "vm" {
     for_each = var.enable_plan ? ["one"] : []
 
     content {
-      name      = var.ngfw_sku
-      publisher = var.ngfw_publisher
-      product   = var.ngfw_offer
+      name      = var.vm_image_sku
+      publisher = var.vm_image_publisher
+      product   = var.vm_image_offer
     }
   }
 
