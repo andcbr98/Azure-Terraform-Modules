@@ -1,19 +1,19 @@
 variable "resource_group_name" {
   description = "The name of the resource group"
   type        = string
-  default     = "test-rg"
+  default     = "lb-rg"
 }
 
 variable "location" {
   description = "The location of the resources"
   type        = string
-  default     = "Italy North"
+  default     = "North Europe"
 }
 
 variable "resource_prefixes" {
   description = "Prefix for all resources"
   type        = list(string)
-  default     = ["demo"]
+  default     = ["vm1","vm2"]
 }
 
 variable "create_vnet" {
@@ -49,7 +49,7 @@ variable "subnet_address_spaces" {
 variable "create_public_ip" {
   description = "Flag to create a public IP"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "existent_vnet_id" {
@@ -73,7 +73,7 @@ variable "existent_public_ip_id" {
 variable "private_ip_address" {
   description = "List of private ip address to use"
   type        = list(string)
-  default     = ["10.0.1.6"]
+  default     = ["10.0.1.6", "10.0.1.7"]
 }
 
 variable "create_nic" {
@@ -97,7 +97,7 @@ variable "admin_username" {
 variable "enable_boot_diagnostics" {
   description = "Enable boot diagnostics for the virtual machine"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "boot_diagnostics_storage_uri" {
@@ -193,5 +193,5 @@ variable "zone_redundant" {
 variable "zone_count" {
   description = "The number of availability zones to use"
   type        = number
-  default     = 1
+  default     = 2
 }

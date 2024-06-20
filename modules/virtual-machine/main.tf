@@ -59,7 +59,7 @@ resource "azurerm_network_interface" "nic" {
   resource_group_name = data.azurerm_resource_group.rg.name
 
   ip_configuration {
-    name                          = "internal"
+    name                          = "${var.resource_prefixes[count.index]}-ip"
     subnet_id                     = var.create_vnet ? azurerm_subnet.subnet[0].id : var.existent_subnet_id
     private_ip_address_allocation = "Static"
     private_ip_address            = element(var.private_ip_address, count.index)
@@ -82,7 +82,6 @@ resource "azurerm_virtual_machine" "vm" {
   vm_size = var.vm_size
 
   storage_image_reference {
-    id        = var.custom_image_id
     publisher = var.custom_image_id == null ? var.vm_image_publisher : null
     offer     = var.custom_image_id == null ? var.vm_image_offer : null
     sku       = var.custom_image_id == null ? var.vm_image_sku : null
