@@ -1,11 +1,11 @@
 variable "resource_group_name" {
-  description = "The name of the resource group"
+  description = "The resource group name"
   type        = string
   default     = "test-rg"
 }
 
 variable "location" {
-  description = "The location of the resources"
+  description = "The resources location"
   type        = string
   default     = "Italy North"
 }
@@ -17,7 +17,7 @@ variable "resource_prefixes" {
 }
 
 variable "lb_name" {
-  description = "Name of the load balancer"
+  description = "Load balancer name"
   default     = "mylb"
 }
 
@@ -27,7 +27,7 @@ variable "frontend_ip_name" {
 }
 
 variable "backend_pool_name" {
-  description = "Name of the backend pool"
+  description = "Backend pool name"
   default     = "backendPool1"
 }
 
