@@ -35,7 +35,7 @@ variable "subnet_count" {
 }
 
 variable "subnet_names" {
-  description = "The names of the subnets"
+  description = "The subnets name"
   type        = list(string)
   default     = ["subnet1"]
 }
@@ -83,7 +83,7 @@ variable "create_nic" {
 }
 
 variable "vm_size" {
-  description = "The size of the virtual machine"
+  description = "The virtual machine size"
   type        = string
   default     = "Standard_DS1_v2"
 }
@@ -137,7 +137,7 @@ variable "vm_image_sku" {
 }
 
 variable "vm_image_version" {
-  description = "The version of the VM image"
+  description = "The VM image version"
   type        = string
   default     = "latest"
 }
@@ -149,7 +149,7 @@ variable "os_disk_caching" {
 }
 
 variable "os_disk_type" {
-  description = "The type of the OS disk"
+  description = "The OS disk type"
   type        = string
   default     = "Standard_LRS"
 }
@@ -179,7 +179,7 @@ variable "data_disk_type" {
 }
 
 variable "data_disk_caching" {
-  description = "The caching mode of the data disk"
+  description = "The data disk caching mode"
   type        = string
   default     = "ReadWrite"
 }
