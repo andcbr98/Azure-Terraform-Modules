@@ -11,7 +11,7 @@ variable "location" {
 }
 
 variable "resource_prefixes" {
-  description = "Prefix for all resources"
+  description = "Prefix for all resources/List of virtual machine names"
   type        = list(string)
   default     = ["demo"]
 }
