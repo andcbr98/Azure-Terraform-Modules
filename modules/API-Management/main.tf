@@ -11,11 +11,11 @@ resource "azurerm_api_management" "apim" {
   publisher_email     = var.publisher_email
   sku_name            = var.sku_name
 
-  virtual_network_configuration {
-    subnet_id = var.subnet_id
-  }
+  #virtual_network_configuration {
+  #  subnet_id = var.subnet_id
+  #}
 
-  virtual_network_type = "Internal" # Set APIM in Internal Mode
+  #virtual_network_type = "Internal" # Set APIM in Internal Mode
 
   identity {
     type = var.identity_type

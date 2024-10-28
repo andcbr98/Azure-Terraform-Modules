@@ -41,12 +41,12 @@ variable "tags" {
   default     = {}
 }
 
-variable "subnet_id" {
-  description = "ID of the existing Subnet where APIM will be deployed in internal mode"
-  type        = string
-}
+# variable "subnet_id" {
+#   description = "ID of the existing Subnet where APIM will be deployed in internal mode"
+#   type        = string
+# }
 
-variable "vnet_id" {
-  description = "ID of the existing Virtual Network where the Subnet is located"
-  type        = string
-}
+# variable "vnet_id" {
+#   description = "ID of the existing Virtual Network where the Subnet is located"
+#   type        = string
+# }
