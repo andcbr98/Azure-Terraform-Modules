@@ -41,6 +41,13 @@ variable "tags" {
   default     = {}
 }
 
+variable "subscription_id" {
+
+  type        = string
+}
+
+
+
 # variable "subnet_id" {
 #   description = "ID of the existing Subnet where APIM will be deployed in internal mode"
 #   type        = string
